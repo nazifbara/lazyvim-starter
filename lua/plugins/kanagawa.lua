@@ -32,12 +32,18 @@ return {
         overrides = function(colors)
           local theme = colors.theme
           return {
-            -- borderless floats: solid darker background, border blended in
-            NormalFloat = { bg = theme.ui.bg_m3 },
-            FloatBorder = { fg = theme.ui.bg_m3, bg = theme.ui.bg_m3 },
-            FloatTitle = { bg = theme.ui.bg_m3 },
-            LazyNormal = { fg = theme.ui.fg_dim, bg = theme.ui.bg_m3 },
-            MasonNormal = { fg = theme.ui.fg_dim, bg = theme.ui.bg_m3 },
+            -- transparent floats with default borders
+            NormalFloat = { bg = "none" },
+            FloatBorder = { bg = "none" },
+            FloatTitle = { bg = "none" },
+
+            -- dark background and dimmed foreground, for windows you still want darker
+            -- e.g. autocmd TermOpen * setlocal winhighlight=Normal:NormalDark
+            NormalDark = { fg = theme.ui.fg_dim, bg = theme.ui.bg_m3 },
+
+            -- plugins whose floats link to NormalFloat; keep them dark and borderless
+            LazyNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
+            MasonNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
 
             -- darker completion menu
             Pmenu = { fg = theme.ui.shade0, bg = theme.ui.bg_p1 },
