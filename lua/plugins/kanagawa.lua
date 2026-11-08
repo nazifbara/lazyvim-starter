@@ -45,11 +45,14 @@ return {
             LazyNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
             MasonNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
 
-            -- darker completion menu
-            Pmenu = { fg = theme.ui.shade0, bg = theme.ui.bg_p1 },
+            -- completion menu: transparent like the floats, same border
+            Pmenu = { fg = theme.ui.shade0, bg = "none" },
             PmenuSel = { fg = "NONE", bg = theme.ui.bg_p2 },
-            PmenuSbar = { bg = theme.ui.bg_m1 },
+            PmenuSbar = { bg = "none" },
             PmenuThumb = { bg = theme.ui.bg_p2 },
+            BlinkCmpMenuBorder = { link = "FloatBorder" },
+            BlinkCmpDocBorder = { link = "FloatBorder" },
+            BlinkCmpSignatureHelpBorder = { link = "FloatBorder" },
           }
         end,
 
