@@ -41,9 +41,9 @@ return {
             -- e.g. autocmd TermOpen * setlocal winhighlight=Normal:NormalDark
             NormalDark = { fg = theme.ui.fg_dim, bg = theme.ui.bg_m3 },
 
-            -- plugins whose floats link to NormalFloat; keep them dark and borderless
-            LazyNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
-            MasonNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
+            -- Lazy and Mason: same transparent float style as everything else
+            LazyNormal = { link = "NormalFloat" },
+            MasonNormal = { link = "NormalFloat" },
 
             -- completion menu: transparent like the floats, same border
             Pmenu = { fg = theme.ui.shade0, bg = "none" },
