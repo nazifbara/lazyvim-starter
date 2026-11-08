@@ -41,6 +41,9 @@ return {
             -- e.g. autocmd TermOpen * setlocal winhighlight=Normal:NormalDark
             NormalDark = { fg = theme.ui.fg_dim, bg = theme.ui.bg_m3 },
 
+            -- explorer tree lines keep the shaded gutter strip
+            SnacksPickerTree = { fg = theme.ui.nontext, bg = theme.ui.bg_p1 },
+
             -- Lazy and Mason: same transparent float style as everything else
             LazyNormal = { link = "NormalFloat" },
             MasonNormal = { link = "NormalFloat" },
