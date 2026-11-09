@@ -1,5 +1,6 @@
 return {
   { "rebelot/kanagawa.nvim" },
+  { "rose-pine/neovim", name = "rose-pine" },
   { "folke/tokyonight.nvim", enabled = false },
   { "catppuccin/nvim", name = "catppuccin", enabled = false },
   {
@@ -7,10 +8,10 @@ return {
     opts = {
       picker = {
         sources = {
-          -- only list kanagawa variants in <leader>uC
+          -- only list kanagawa and rose pine variants in <leader>uC
           colorschemes = {
             transform = function(item)
-              return item.text:match("^kanagawa") ~= nil
+              return item.text:match("^kanagawa") ~= nil or item.text:match("^rose%-pine") ~= nil
             end,
           },
           -- explorer uses the editor background (dimmed when unfocused, like
@@ -33,7 +34,37 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "kanagawa",
+      -- start with the last theme picked, saved by the ColorScheme autocmd below
+      colorscheme = function()
+        local file = vim.fn.stdpath("state") .. "/last-colorscheme"
+        -- save the outermost name requested: loading rose-pine-moon changes
+        -- 'background', which reloads the theme as plain rose-pine
+        local depth, requested = 0, nil
+        vim.api.nvim_create_autocmd("ColorSchemePre", {
+          callback = function(ev)
+            depth = depth + 1
+            if depth == 1 then
+              requested = ev.match
+            end
+          end,
+        })
+        vim.api.nvim_create_autocmd("ColorScheme", {
+          callback = function(ev)
+            depth = math.max(depth - 1, 0)
+            if depth == 0 then
+              vim.g.picked_colorscheme = requested or ev.match
+              vim.fn.writefile({ vim.g.picked_colorscheme }, file)
+            end
+          end,
+        })
+
+        local ok, lines = pcall(vim.fn.readfile, file)
+        local name = ok and lines[1] or nil
+        if not (name and pcall(vim.cmd.colorscheme, name)) then
+          depth = 0 -- a failed load can leave it raised
+          vim.cmd.colorscheme("kanagawa")
+        end
+      end,
     },
   },
 }
