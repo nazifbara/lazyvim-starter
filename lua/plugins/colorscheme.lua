@@ -54,6 +54,7 @@ return {
             if depth == 0 then
               vim.g.picked_colorscheme = requested or ev.match
               vim.fn.writefile({ vim.g.picked_colorscheme }, file)
+              require("config.terminal_theme").sync(vim.g.picked_colorscheme)
             end
           end,
         })
