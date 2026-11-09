@@ -1,6 +1,6 @@
 -- switch 'background' and reapply the theme that was picked, so it moves to its
 -- light/dark variant. The name is read first: changing 'background' reloads the
--- theme under its colors_name, which can differ (rose-pine-moon -> rose-pine).
+-- theme under its colors_name, which can differ (kanagawa-dragon -> kanagawa).
 local function set(background)
   local name = vim.g.picked_colorscheme or vim.g.colors_name or "kanagawa"
   vim.o.background = background

@@ -1,6 +1,5 @@
 return {
   { "rebelot/kanagawa.nvim" },
-  { "rose-pine/neovim", name = "rose-pine" },
   { "folke/tokyonight.nvim", enabled = false },
   { "catppuccin/nvim", name = "catppuccin", enabled = false },
   {
@@ -8,10 +7,10 @@ return {
     opts = {
       picker = {
         sources = {
-          -- only list kanagawa and rose pine variants in <leader>uC
+          -- only list kanagawa variants in <leader>uC
           colorschemes = {
             transform = function(item)
-              return item.text:match("^kanagawa") ~= nil or item.text:match("^rose%-pine") ~= nil
+              return item.text:match("^kanagawa") ~= nil
             end,
           },
           -- explorer uses the editor background (dimmed when unfocused, like
@@ -37,8 +36,8 @@ return {
       -- start with the last theme picked, saved by the ColorScheme autocmd below
       colorscheme = function()
         local file = vim.fn.stdpath("state") .. "/last-colorscheme"
-        -- save the outermost name requested: loading rose-pine-moon changes
-        -- 'background', which reloads the theme as plain rose-pine
+        -- save the outermost name requested: a theme can reload itself under
+        -- its colors_name (kanagawa-dragon -> kanagawa) while loading
         local depth, requested = 0, nil
         vim.api.nvim_create_autocmd("ColorSchemePre", {
           callback = function(ev)

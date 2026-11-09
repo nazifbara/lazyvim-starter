@@ -11,16 +11,11 @@ local tuios_dir = is_mac and vim.fn.expand("~/Library/Application Support/tuios"
 -- colorscheme -> { ghostty theme, tuios theme }. tuios has a single, dark
 -- kanagawa, so the kanagawa variants all map to it.
 local function themes(name)
-  local light = vim.o.background == "light"
   local map = {
     ["kanagawa"] = { "dark:Kanagawa Wave,light:Kanagawa Lotus", "kanagawa" },
     ["kanagawa-wave"] = { "Kanagawa Wave", "kanagawa" },
     ["kanagawa-dragon"] = { "Kanagawa Dragon", "kanagawa" },
     ["kanagawa-lotus"] = { "Kanagawa Lotus", "kanagawa" },
-    ["rose-pine"] = { "dark:Rose Pine,light:Rose Pine Dawn", light and "rose_pine_dawn" or "rose_pine" },
-    ["rose-pine-main"] = { "Rose Pine", "rose_pine" },
-    ["rose-pine-moon"] = { "Rose Pine Moon", "rose_pine_moon" },
-    ["rose-pine-dawn"] = { "Rose Pine Dawn", "rose_pine_dawn" },
   }
   local t = map[name]
   if t then
