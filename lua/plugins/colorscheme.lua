@@ -1,6 +1,5 @@
 return {
   { "rebelot/kanagawa.nvim" },
-  { "webhooked/kanso.nvim" },
   { "folke/tokyonight.nvim", enabled = false },
   { "catppuccin/nvim", name = "catppuccin", enabled = false },
   {
@@ -8,10 +7,10 @@ return {
     opts = {
       picker = {
         sources = {
-          -- only list kanagawa and kanso variants in <leader>uC
+          -- only list kanagawa variants in <leader>uC
           colorschemes = {
             transform = function(item)
-              return (item.text:match("^kanagawa") or item.text:match("^kanso")) ~= nil
+              return item.text:match("^kanagawa") ~= nil
             end,
           },
           -- explorer uses the editor background (dimmed when unfocused, like

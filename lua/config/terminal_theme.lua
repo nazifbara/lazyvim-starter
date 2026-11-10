@@ -9,20 +9,13 @@ local tuios_dir = is_mac and vim.fn.expand("~/Library/Application Support/tuios"
   or (vim.env.XDG_CONFIG_HOME or vim.fn.expand("~/.config")) .. "/tuios"
 
 -- colorscheme -> { ghostty theme, tuios theme }. tuios has a single, dark
--- kanagawa, so the kanagawa variants all map to it. The kanso tuios themes are
--- imported from kanso.nvim's Ghostty files into tuios/themes.
+-- kanagawa, so the kanagawa variants all map to it.
 local function themes(name)
-  local light = vim.o.background == "light"
   local map = {
     ["kanagawa"] = { "dark:Kanagawa Wave,light:Kanagawa Lotus", "kanagawa" },
     ["kanagawa-wave"] = { "Kanagawa Wave", "kanagawa" },
     ["kanagawa-dragon"] = { "Kanagawa Dragon", "kanagawa" },
     ["kanagawa-lotus"] = { "Kanagawa Lotus", "kanagawa" },
-    ["kanso"] = { "dark:Kanso Ink,light:Kanso Pearl", light and "kanso_pearl" or "kanso_ink" },
-    ["kanso-ink"] = { "Kanso Ink", "kanso_ink" },
-    ["kanso-zen"] = { "Kanso Zen", "kanso_zen" },
-    ["kanso-mist"] = { "Kanso Mist", "kanso_mist" },
-    ["kanso-pearl"] = { "Kanso Pearl", "kanso_pearl" },
   }
   local t = map[name]
   if t then
