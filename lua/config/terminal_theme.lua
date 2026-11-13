@@ -9,19 +9,13 @@ local tuios_dir = is_mac and vim.fn.expand("~/Library/Application Support/tuios"
   or (vim.env.XDG_CONFIG_HOME or vim.fn.expand("~/.config")) .. "/tuios"
 
 -- colorscheme -> { ghostty theme, tuios theme }. tuios has a single, dark
--- kanagawa, so the kanagawa variants all map to it. The everforest tuios
--- themes are imported from Ghostty's Everforest Dark/Light Med into tuios/themes.
+-- kanagawa, so the kanagawa variants all map to it.
 local function themes(name)
-  local light = vim.o.background == "light"
   local map = {
     ["kanagawa"] = { "dark:Kanagawa Wave,light:Kanagawa Lotus", "kanagawa" },
     ["kanagawa-wave"] = { "Kanagawa Wave", "kanagawa" },
     ["kanagawa-dragon"] = { "Kanagawa Dragon", "kanagawa" },
     ["kanagawa-lotus"] = { "Kanagawa Lotus", "kanagawa" },
-    ["everforest"] = {
-      "dark:Everforest Dark Med,light:Everforest Light Med",
-      light and "everforest_light" or "everforest_dark",
-    },
   }
   local t = map[name]
   if t then
