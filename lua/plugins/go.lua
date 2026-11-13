@@ -21,4 +21,16 @@ return {
       },
     },
   },
+  {
+    "mfussenegger/nvim-lint",
+    opts = function()
+      -- nvim-lint lints the lone file when `go env GOMOD` finds no go.mod in
+      -- nvim's cwd, as in a go.work repo with no root module, so the rest of
+      -- the package goes missing. Always lint the buffer's package directory.
+      local args = require("lint").linters.golangcilint.args
+      args[#args] = function()
+        return vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":h")
+      end
+    end,
+  },
 }
