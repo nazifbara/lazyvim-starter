@@ -1,4 +1,4 @@
--- system dark mode uses kanagawa wave, light mode uses everforest. This runs
+-- system dark mode uses kanagawa dragon, light mode uses everforest. This runs
 -- on startup and whenever the system appearance changes, so it wins over the
 -- theme saved in colorscheme.lua. Only these switches update Ghostty, tuios
 -- and Claude Code; a theme picked with <leader>uC stays in Neovim.
@@ -17,7 +17,7 @@ return {
     update_interval = 1000,
 
     set_dark_mode = function()
-      set("dark", "kanagawa-wave")
+      set("dark", "kanagawa-dragon")
     end,
 
     set_light_mode = function()

@@ -15,23 +15,23 @@ local claude_themes = vim.fs.dirname(vim.fn.resolve(vim.fn.stdpath("config"))) .
 -- colorscheme -> { ghostty theme, tuios theme, claude code theme }. tuios has a single, dark
 -- kanagawa, so the kanagawa variants all map to it. everforest_light is
 -- imported from Ghostty's Everforest Light Med into tuios/themes.
--- Claude Code has themes for wave and everforest light only; the other
--- colorschemes leave it as it is.
+-- Claude Code has themes for wave and everforest light only; dragon uses
+-- wave's, and the other colorschemes leave it as it is.
 --
--- kanagawa-wave and everforest are the pair auto-dark-mode switches between,
+-- kanagawa-dragon and everforest are the pair auto-dark-mode switches between,
 -- so Ghostty gets both and follows the system on its own, even with no Neovim open.
 local function themes(name)
-  local system_pair = "dark:Kanagawa Wave,light:Everforest Light Med"
+  local system_pair = "dark:Kanagawa Dragon,light:Everforest Light Med"
   local light = vim.o.background == "light"
   local map = {
     ["kanagawa"] = { "dark:Kanagawa Wave,light:Kanagawa Lotus", "kanagawa", not light and "kanagawa-wave" or nil },
-    ["kanagawa-wave"] = { system_pair, "kanagawa", "kanagawa-wave" },
+    ["kanagawa-wave"] = { "Kanagawa Wave", "kanagawa", "kanagawa-wave" },
     ["everforest"] = {
       system_pair,
       light and "everforest_light" or "kanagawa",
       light and "everforest-light" or "kanagawa-wave",
     },
-    ["kanagawa-dragon"] = { "Kanagawa Dragon", "kanagawa" },
+    ["kanagawa-dragon"] = { system_pair, "kanagawa", "kanagawa-wave" },
     ["kanagawa-lotus"] = { "Kanagawa Lotus", "kanagawa" },
   }
   local t = map[name]
