@@ -7,10 +7,10 @@ return {
     opts = {
       picker = {
         sources = {
-          -- only list kanagawa variants in <leader>uC
+          -- only list kanagawa variants and everforest in <leader>uC
           colorschemes = {
             transform = function(item)
-              return item.text:match("^kanagawa") ~= nil
+              return item.text:match("^kanagawa") ~= nil or item.text == "everforest"
             end,
           },
           -- explorer uses the editor background (dimmed when unfocused, like
