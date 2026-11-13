@@ -1,10 +1,11 @@
--- switch 'background' and reapply the theme that was picked, so it moves to its
--- light/dark variant. The name is read first: changing 'background' reloads the
--- theme under its colors_name, which can differ (kanagawa-dragon -> kanagawa).
-local function set(background)
-  local name = vim.g.picked_colorscheme or vim.g.colors_name or "kanagawa"
+-- system dark mode uses kanagawa wave, light mode uses everforest. This runs
+-- on startup and whenever the system appearance changes, so it wins over the
+-- theme saved in colorscheme.lua. Only these switches update Ghostty, tuios
+-- and Claude Code; a theme picked with <leader>uC stays in Neovim.
+local function set(background, name)
   vim.o.background = background
   vim.cmd.colorscheme(name)
+  require("config.terminal_theme").sync(name)
 end
 
 return {
@@ -16,11 +17,11 @@ return {
     update_interval = 1000,
 
     set_dark_mode = function()
-      set("dark")
+      set("dark", "kanagawa-wave")
     end,
 
     set_light_mode = function()
-      set("light")
+      set("light", "everforest")
     end,
   },
 }

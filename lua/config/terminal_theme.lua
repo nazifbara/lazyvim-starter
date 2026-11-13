@@ -1,25 +1,42 @@
--- Make Ghostty and tuios follow the Neovim colorscheme. Each reads a theme
--- file Neovim writes: Ghostty includes ~/.config/ghostty/nvim-theme, tuios
--- reads config.d/theme.toml. Both files are gitignored in the dotfiles repo.
+-- Make Ghostty, tuios and Claude Code follow the Neovim colorscheme. Each reads
+-- a theme file Neovim writes: Ghostty includes ~/.config/ghostty/nvim-theme,
+-- tuios reads config.d/theme.toml, and Claude Code uses
+-- ~/.claude/themes/terminal.json ("theme": "custom:terminal" in its settings).
 local M = {}
 
 local is_mac = vim.uv.os_uname().sysname == "Darwin"
 local ghostty_file = vim.fn.expand("~/.config/ghostty/nvim-theme")
 local tuios_dir = is_mac and vim.fn.expand("~/Library/Application Support/tuios")
   or (vim.env.XDG_CONFIG_HOME or vim.fn.expand("~/.config")) .. "/tuios"
+local claude_file = vim.fn.expand("~/.claude/themes/terminal.json")
+-- the Claude Code themes live next to this config in the dotfiles repo
+local claude_themes = vim.fs.dirname(vim.fn.resolve(vim.fn.stdpath("config"))) .. "/claude/themes"
 
--- colorscheme -> { ghostty theme, tuios theme }. tuios has a single, dark
--- kanagawa, so the kanagawa variants all map to it.
+-- colorscheme -> { ghostty theme, tuios theme, claude code theme }. tuios has a single, dark
+-- kanagawa, so the kanagawa variants all map to it. everforest_light is
+-- imported from Ghostty's Everforest Light Med into tuios/themes.
+-- Claude Code has themes for wave and everforest light only; the other
+-- colorschemes leave it as it is.
+--
+-- kanagawa-wave and everforest are the pair auto-dark-mode switches between,
+-- so Ghostty gets both and follows the system on its own, even with no Neovim open.
 local function themes(name)
+  local system_pair = "dark:Kanagawa Wave,light:Everforest Light Med"
+  local light = vim.o.background == "light"
   local map = {
-    ["kanagawa"] = { "dark:Kanagawa Wave,light:Kanagawa Lotus", "kanagawa" },
-    ["kanagawa-wave"] = { "Kanagawa Wave", "kanagawa" },
+    ["kanagawa"] = { "dark:Kanagawa Wave,light:Kanagawa Lotus", "kanagawa", not light and "kanagawa-wave" or nil },
+    ["kanagawa-wave"] = { system_pair, "kanagawa", "kanagawa-wave" },
+    ["everforest"] = {
+      system_pair,
+      light and "everforest_light" or "kanagawa",
+      light and "everforest-light" or "kanagawa-wave",
+    },
     ["kanagawa-dragon"] = { "Kanagawa Dragon", "kanagawa" },
     ["kanagawa-lotus"] = { "Kanagawa Lotus", "kanagawa" },
   }
   local t = map[name]
   if t then
-    return t[1], t[2]
+    return t[1], t[2], t[3]
   end
 end
 
@@ -48,7 +65,7 @@ local function reload_ghostty()
 end
 
 function M.sync(name)
-  local ghostty, tuios = themes(name)
+  local ghostty, tuios, claude = themes(name)
   if not ghostty then
     return
   end
@@ -66,6 +83,12 @@ function M.sync(name)
       "[appearance]",
       ('theme = "%s"'):format(tuios),
     })
+  end
+
+  -- Claude Code watches its themes folder and applies the change itself
+  local ok, theme = pcall(vim.fn.readfile, ("%s/%s.json"):format(claude_themes, claude))
+  if claude and ok and vim.uv.fs_stat(vim.fn.expand("~/.claude")) then
+    write(claude_file, theme)
   end
 end
 

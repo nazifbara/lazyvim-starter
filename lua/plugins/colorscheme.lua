@@ -7,10 +7,10 @@ return {
     opts = {
       picker = {
         sources = {
-          -- only list kanagawa variants in <leader>uC
+          -- only list kanagawa variants and everforest in <leader>uC
           colorschemes = {
             transform = function(item)
-              return item.text:match("^kanagawa") ~= nil
+              return item.text:match("^kanagawa") ~= nil or item.text == "everforest"
             end,
           },
           -- explorer uses the editor background (dimmed when unfocused, like
@@ -53,7 +53,6 @@ return {
             if depth == 0 then
               vim.g.picked_colorscheme = requested or ev.match
               vim.fn.writefile({ vim.g.picked_colorscheme }, file)
-              require("config.terminal_theme").sync(vim.g.picked_colorscheme)
             end
           end,
         })
